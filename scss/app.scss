@@ -45,9 +45,15 @@ header {
     background-color: Snow   ;
     color: slategrey;
 
-    img {
-        width:90%;
-        max-witdh: 400px;
+    .profilepic {
+        
+        text-align: center;
+        
+        img {
+            width:90%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
     }
     
     @media #{$medium-up} {
