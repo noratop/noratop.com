@@ -39,54 +39,64 @@
 //   "foundation/components/offcanvas",
 //   "foundation/components/visibility";
 
-// $back: repeating-linear-gradient(
-//         //     90deg, 
-//         //     transparent, 
-//         //     transparent 50px, 
-//         //     rgba(255, 127, 0, 0.25) 50px, 
-//         //     rgba(255, 127, 0, 0.25) 56px, 
-//         //     transparent 56px, 
-//         //     transparent 63px, 
-//         //     rgba(255, 127, 0, 0.25) 63px, 
-//         //     rgba(255, 127, 0, 0.25) 69px, 
-//         //     transparent 69px, 
-//         //     transparent 116px, 
-//         //     rgba(255, 206, 0, 0.25) 116px, 
-//         //     rgba(255, 206, 0, 0.25) 166px
-//         // ),
-//         // repeating-linear-gradient(
-//         //     0deg, transparent, transparent 50px, 
-//         //     rgba(255, 127, 0, 0.25) 50px, 
-//         //     rgba(255, 127, 0, 0.25) 56px, 
-//         //     transparent 56px, 
-//         //     transparent 63px, 
-//         //     rgba(255, 127, 0, 0.25) 63px, 
-//         //     rgba(255, 127, 0, 0.25) 69px, 
-//         //     transparent 69px, 
-//         //     transparent 116px, 
-//         //     rgba(255, 206, 0, 0.25) 116px, 
-//         //     rgba(255, 206, 0, 0.25) 166px
-//         // );
-//         // repeating-linear-gradient(
-//         -45deg, 
-//             transparent, 
-//             transparent 7px, 
-//             rgba(143, 77, 63, 0.05) 10px, 
-//             rgba(143, 77, 63, 0.05) 20px,
-//             transparent 7px, 
-//             rgba(143, 77, 63, 0.05) 30px, 
-//             rgba(143, 77, 63, 0.05) 40px
-//         ),
-//         repeating-linear-gradient(45deg, 
-//             transparent, 
-//             transparent 7px, 
-//             rgba(143, 77, 63, 0.05) 30px, 
-//             rgba(143, 77, 63, 0.05) 60px
-// //     transparent, 
-//         //     transparent 5px, 
-//         //     rgba(143, 77, 63, 0.25) 5px, 
-//         //     rgba(143, 77, 63, 0.25) 10px
-//         );
+$back: repeating-linear-gradient(
+        //     90deg, 
+        //     transparent, 
+        //     transparent 50px, 
+        //     rgba(255, 127, 0, 0.25) 50px, 
+        //     rgba(255, 127, 0, 0.25) 56px, 
+        //     transparent 56px, 
+        //     transparent 63px, 
+        //     rgba(255, 127, 0, 0.25) 63px, 
+        //     rgba(255, 127, 0, 0.25) 69px, 
+        //     transparent 69px, 
+        //     transparent 116px, 
+        //     rgba(255, 206, 0, 0.25) 116px, 
+        //     rgba(255, 206, 0, 0.25) 166px
+        // ),
+        // repeating-linear-gradient(
+        //     0deg, transparent, transparent 50px, 
+        //     rgba(255, 127, 0, 0.25) 50px, 
+        //     rgba(255, 127, 0, 0.25) 56px, 
+        //     transparent 56px, 
+        //     transparent 63px, 
+        //     rgba(255, 127, 0, 0.25) 63px, 
+        //     rgba(255, 127, 0, 0.25) 69px, 
+        //     transparent 69px, 
+        //     transparent 116px, 
+        //     rgba(255, 206, 0, 0.25) 116px, 
+        //     rgba(255, 206, 0, 0.25) 166px
+        // );
+        // repeating-linear-gradient(
+        -45deg, 
+            transparent, 
+            transparent 7px, 
+            rgba(143, 77, 63, 0.05) 10px, 
+            rgba(143, 77, 63, 0.05) 20px,
+            transparent 7px, 
+            rgba(143, 77, 63, 0.05) 30px, 
+            rgba(143, 77, 63, 0.05) 40px
+        ),
+        repeating-linear-gradient(45deg, 
+            transparent, 
+            transparent 7px, 
+            rgba(143, 77, 63, 0.05) 30px, 
+            rgba(143, 77, 63, 0.05) 60px
+//     transparent, 
+        //     transparent 5px, 
+        //     rgba(143, 77, 63, 0.25) 5px, 
+        //     rgba(143, 77, 63, 0.25) 10px
+        );
+
+
+
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
 
 
 body {
@@ -98,72 +108,77 @@ body {
 	position:relative;
 }
 
+
 header {
     text-align: left;
-    color: slategray;
+    color: white;
+    text-shadow: 0 0 1em slategray;
+    background-position:center;    
+    background-size: cover;
+    background-image: $back,url(./../assets/img/head-backgd.png);
+    padding: 0.5em;
 
     .profilepic {
-        
         text-align: center;
+        //background-color:#ccc;
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.8));
+        border-radius: 7px;
         
         img {
-            width:90%;
+            width: 90%;
             max-width: 400px;
             //margin: 0 auto;
         }
     }
     
-    @media #{$medium-up} {
+    // @media # {$medium-up}
+    // {
         .container {
             display: flex;
             align-items: center;
+            justify-content: space-around;
         }
-        
         .header-text {
             order: -1;
             //margin: 0 ;
-            padding: 5%;
-            
-            p {
-                margin:0;
-            }
+            // padding: 5%;
+            // p {
+            //     margin: 0;
+            // }
         }
-        
-       @include grid-column($center:true);
-    }
-}
-
-.title {
-        background-color: tomato ;
-        background-image: #FA6146 ;
-        //overflow: hidden;
-        margin:0;
-        padding:0.5em;
-        color:white;
-        // box-shadow: 0 0 15px #ccc;
-// border-top: 0.3em silver solid;
-    // border-bottom: 0.2em slategray solid;
-}
-
-.content {
-    background-color: white;
-}
-
-footer {
+    // }
     
-    @media #{$medium-up} {
-    width:100%;
-	height:100px;
-	position:absolute;
-	bottom:0;
-	left:0;
-    }
+    
+}
+
+.sub-header {
+    background-color: tomato ;
+    background-image: #FA6146 ;
+    overflow: hidden;
+    margin:0;
+    padding:0.5em;
+    color:white;
+    // box-shadow: 0 0 15px #ccc;
+    // border-top: 0.3em silver solid;
+    // border-bottom: 0.2em slategray solid;
+    
+    // @media #{$medium-up} {
+    //     width:100%;
+    //     height:100px;
+    //     position:absolute;
+    //     bottom:0;
+    //     left:0;
+    // }
      
     a {
         font-size:4em;
-        color:#FA6146 ;
+        color:white ;
     }
 }
+
+.content {
+}
+
 
 p {
     margin: auto 10px;
