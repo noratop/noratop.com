@@ -1,4 +1,3 @@
-var data = require("./lib/data");
 var Backbone = require('backbone');
 var _ = require("underscore");
 
@@ -41,7 +40,7 @@ var ReposView = Backbone.View.extend({
     //     }
     // },
     render: function() {
-        this.$el.html( this.template({entry: this.model}) );
+        this.$el.html( this.template({repoList: this.model}) );
     }
 });
 
