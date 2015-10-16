@@ -1,21 +1,28 @@
 $(document).foundation();
 
-var GitHubApi = require("github");
 var data = require("./lib/data");
 var view = require("./lib/view");
 
 console.log("loaded");
 
 var git = $('#git');
+console.log(git);
 
-$('keyword__item').on("click",function(){
+$('.keyword__item').on("click",function(){
     
-    var reposCollection = new data.RepoCollection({
-        keyword: "foo"
+    var keyword = $(this).text();
+    console.log(keyword);
+    
+    var reposCollection = new data.RepoCollection(null,{
+        keyword: "nodejs"
     });
     
-    reposCollection.fetch({data:this.getFilter()}).then(function(){
-                
+    console.log(reposCollection.getFilter());
+    reposCollection.fetch({data:reposCollection.getFilter()}).then(function(){
+        
+        console.log("collection fetch");
+        console.log(reposCollection);
+        
         var repos = new view.ReposView({
             model: reposCollection
         });

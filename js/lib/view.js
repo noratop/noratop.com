@@ -1,7 +1,7 @@
 var Backbone = require('backbone');
 var _ = require("underscore");
 
-var repoTemplate = require("!raw./view-template.ejs");
+var repoTemplate = require("raw!./view-template.ejs");
 
 // Views
 
