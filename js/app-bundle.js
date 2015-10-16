@@ -47,7 +47,7 @@
 	$(document).foundation();
 
 	var data = __webpack_require__(1);
-	var view = __webpack_require__(5);
+	var ReposView = __webpack_require__(5);
 
 	console.log("loaded");
 
@@ -69,12 +69,11 @@
 	        console.log("collection fetch");
 	        console.log(reposCollection);
 	        
-	        var repos = new view.ReposView({
+	        var repos = new ReposView({
 	            model: reposCollection
 	        });
 	        
-	        repos.render();
-	        git.append(repos.$el);
+	        git.append(repos.render().$el);
 	    });
 
 	});
@@ -12795,14 +12794,13 @@
 	var Backbone = __webpack_require__(2);
 	var _ = __webpack_require__(6);
 
-	var repoTemplate = __webpack_require__(7);
-
 	// Views
+	var RepoView = __webpack_require__(7);
 
 	var ReposView = Backbone.View.extend({
-	    template: _.template( repoTemplate ),
 	    model: null,
-	    tagName: 'div',
+	    tagName: 'ul',
+	    className: '',
 	    // events: {
 	    //     'click .fi-pencil': 'editSomething',
 	    //     'keypress .edit-input': 'editCompleted'
@@ -12834,13 +12832,26 @@
 	    //     }
 	    // },
 	    render: function() {
-	        this.$el.html( this.template({repoList: this.model}) );
+	        
+	        
+	        
+	        
+	        var subViews = this.model.map(function(currentModel) {
+	            return new RepoView({model: currentModel}).render().$el;
+	        });
+	        this.$el.empty().append(subViews);
+	        
+	        // This version will create a lot of reflows
+	        // this.$el.empty();
+	        // for (var i = 0; i < this.model.length; i++) {
+	        //     this.$el.append(new RepoView({model: this.model[i]}).render().$el);
+	        // }
+	        
+	        return this;
 	    }
 	});
 
-	module.exports = {
-	    ReposView:ReposView
-	}
+	module.exports = ReposView;
 
 /***/ },
 /* 6 */
@@ -14398,9 +14409,30 @@
 
 /***/ },
 /* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Backbone = __webpack_require__(2);
+	var _ = __webpack_require__(6);
+	var repoTemplate = __webpack_require__(8);
+
+	var RepoView = Backbone.View.extend({
+	    template: _.template( repoTemplate ),
+	    model: null,
+	    tagName: 'li',
+	    className: '',
+	    render: function() {
+	        this.$el.html(this.template({model: this.model}));
+	        return this;
+	    }
+	});
+
+	module.exports = RepoView;
+
+/***/ },
+/* 8 */
 /***/ function(module, exports) {
 
-	module.exports = "<ul>\n    <% repoList.forEach(function(repo){ %>\n       <% console.log(\"in forEach\");console.log(repo); %> \n    <% }) %>\n</ul>"
+	module.exports = "<p><%= model.get('name') %></p>"
 
 /***/ }
 /******/ ]);

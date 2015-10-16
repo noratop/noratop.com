@@ -1,7 +1,7 @@
 $(document).foundation();
 
 var data = require("./lib/data");
-var view = require("./lib/view");
+var ReposView = require("./lib/repos-view");
 
 console.log("loaded");
 
@@ -23,12 +23,11 @@ $('.keyword__item').on("click",function(){
         console.log("collection fetch");
         console.log(reposCollection);
         
-        var repos = new view.ReposView({
+        var repos = new ReposView({
             model: reposCollection
         });
         
-        repos.render();
-        git.append(repos.$el);
+        git.append(repos.render().$el);
     });
 
 });
