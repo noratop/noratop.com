@@ -56,11 +56,11 @@
 
 	$('.keyword__item').on("click",function(){
 	    
-	    var keyword = $(this).text();
-	    console.log(keyword);
+	    var keywordSelection = $(this).text();
+	    console.log(keywordSelection);
 	    
 	    var reposCollection = new data.RepoCollection(null,{
-	        keyword: "nodejs"
+	        keyword: keywordSelection
 	    });
 	    
 	    console.log(reposCollection.getFilter());
@@ -70,7 +70,7 @@
 	        console.log(reposCollection);
 	        
 	        var repos = new ReposView({
-	            model: reposCollection
+	            collection: reposCollection
 	        });
 	        
 	        git.append(repos.render().$el);
@@ -12798,7 +12798,7 @@
 	var RepoView = __webpack_require__(7);
 
 	var ReposView = Backbone.View.extend({
-	    model: null,
+	    collection: null,
 	    tagName: 'ul',
 	    className: '',
 	    // events: {
@@ -12833,10 +12833,7 @@
 	    // },
 	    render: function() {
 	        
-	        
-	        
-	        
-	        var subViews = this.model.map(function(currentModel) {
+	        var subViews = this.collection.map(function(currentModel) {
 	            return new RepoView({model: currentModel}).render().$el;
 	        });
 	        this.$el.empty().append(subViews);

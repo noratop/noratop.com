@@ -5,7 +5,7 @@ var _ = require("underscore");
 var RepoView = require('./repo-view');
 
 var ReposView = Backbone.View.extend({
-    model: null,
+    collection: null,
     tagName: 'ul',
     className: '',
     // events: {
@@ -40,10 +40,7 @@ var ReposView = Backbone.View.extend({
     // },
     render: function() {
         
-        
-        
-        
-        var subViews = this.model.map(function(currentModel) {
+        var subViews = this.collection.map(function(currentModel) {
             return new RepoView({model: currentModel}).render().$el;
         });
         this.$el.empty().append(subViews);

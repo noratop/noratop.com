@@ -10,11 +10,11 @@ console.log(git);
 
 $('.keyword__item').on("click",function(){
     
-    var keyword = $(this).text();
-    console.log(keyword);
+    var keywordSelection = $(this).text();
+    console.log(keywordSelection);
     
     var reposCollection = new data.RepoCollection(null,{
-        keyword: "nodejs"
+        keyword: keywordSelection
     });
     
     console.log(reposCollection.getFilter());
@@ -24,7 +24,7 @@ $('.keyword__item').on("click",function(){
         console.log(reposCollection);
         
         var repos = new ReposView({
-            model: reposCollection
+            collection: reposCollection
         });
         
         git.append(repos.render().$el);
