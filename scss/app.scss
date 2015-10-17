@@ -102,6 +102,7 @@ html {
 
 body {
     text-align: center;
+    font-family: 'Lato', sans-serif;
 }
 
 .wrapper {
@@ -109,13 +110,7 @@ body {
 	position:relative;
 }
 
-p {
-    margin: auto 10px;
-}
-
 header {
-    
-    font-family: 'Lato', sans-serif;
     text-align: left;
     color: white;
     text-transform: full-width;
@@ -123,48 +118,52 @@ header {
     background-position:center;    
     background-size: cover;
     background-image: $back,url(./../assets/img/head-backgd.png);
-    //padding: 0.5em;
-    
-    h1 {
-        font-weight:100;
-        font-size: 3em;
-        margin:0;
-    }
     font-size: 1.2em;
 
-    .profilepic {
+    // @media # {$medium-up}
+    //{
+    
+    .container {
+        display: flex;
+        //align-items: center;
+        justify-content: space-between;
+    }
+    .title-block {
+        order: -1;
         flex-basis:50vw;
-        //text-align: center;
-        //background-color:#ccc;
-        background-image: linear-gradient(to right, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.8));
-        //border-radius: 7px;
+        padding: 0 5%;
+            
+        h1 {
+            font-weight:100;
+            font-size: 4.5em;
+            margin: 0;
+        }
         
+        h2 {
+            padding-left: 1vw;
+        }
+
+        p {
+            padding-left: 2em;
+            font-style: italic;
+        }
+    }
+    
+    // }
+
+    .photo-block {
+        //background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 20%,rgba(255, 255, 255, 0.8));
+        background-color: rgba(255, 255, 255, 0.5);
+        flex-basis:50vw;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+
         img {
             width: 100%;
             max-width: 400px;
-            //margin: 0 auto;
         }
     }
-    
-    // @media # {$medium-up}
-    // {
-        .container {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-        }
-        .header-text {
-            order: -1;
-            flex-basis:50vw;
-            //margin: 0 ;
-            // padding: 5%;
-            // p {
-            //     margin: 0;
-            // }
-        }
-    // }
-    
-    
 }
 
 .social {
@@ -193,15 +192,26 @@ header {
 }
 
 .content {
-    color: $myColor;
+    color: Cadetblue  ;
+    
     .keyword{
         list-style-type:none;
         
+        a {
+            color: tomato;
+            text-decoration:none;
+        }
+
         &__item {
             display:inline-block;
             border:1px $myColor solid;
             border-radius: 2px;
             padding:0.3em;
+            
+            &:hover {
+                a {color:white;}
+                background-color: tomato;
+            }
         }
     }
 
