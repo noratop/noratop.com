@@ -17,7 +17,11 @@
     "backbone": "^1.2.3",
     "dotenv": "^1.2.0",
     "jquery": "^2.1.4",
+<<<<<<< HEAD
     "query-string": "^3.0.0",
+=======
+    "octokat": "^0.4.12",
+>>>>>>> octokat search request ok
     "raw-loader": "^0.5.1",
     "underscore": "^1.8.3"
   }

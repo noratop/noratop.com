@@ -1,43 +1,58 @@
 $(document).foundation();
-var queryString = require('query-string');
+var Octokat = require('octokat');
+
 var data = require("./lib/data");
 var ReposView = require("./lib/repos-view");
-
-//console.log("loaded");
 
 var git = $('#git');
 var user = "noratop";
 
-//console.log(git);
-
 $('.keyword__item').on("click",function(){
     
-    var keywordSelection = $(this).text();
-    // console.log(keywordSelection);
+    var keyword = $(this).text();
+    //console.log(keyword);
+
+    var octo = new Octokat();
+    var repos = octo.search('repositories');
+
+    var qualifiers = keyword +" user:"+user+" fork:true";
+
+    var search = {
+        q: qualifiers,
+        sort : "updated",
+        order: "asc"
+    }
     
-    var reposCollection = new data.RepoCollection(null,{
-        keyword: keywordSelection,
-        user: user
+    repos.fetch(search) // Use `.read` to get the raw file.
+    .then(function(contents) { // `.fetch` is used for getting JSON
+        console.log(contents);
     });
     
-    reposCollection.fetch({data: queryString.stringify(reposCollection.searchQuery)})
-    .then(function(){
-        reposCollection.map(function(currentModel) {
-        // var parent = 
-        console.log(currentModel);
-        currentModel.set({test:"youpi"});
-        })
-    })
-    .then(function(){
+    
+
+    // var reposCollection = new data.RepoCollection(null,{
+    //     keyword: keywordSelection,
+    //     user: user
+    // });
+    
+    // reposCollection.fetch({data: queryString.stringify(reposCollection.searchQuery)})
+    // .then(function(){
+    //     reposCollection.map(function(currentModel) {
+    //     // var parent = 
+    //     console.log(currentModel);
+    //     currentModel.set({test:"youpi"});
+    //     })
+    // })
+    // .then(function(){
         
-        // console.log("collection fetch");
-        // console.log(queryString.stringify(reposCollection.searchQuery));
+    //     // console.log("collection fetch");
+    //     // console.log(queryString.stringify(reposCollection.searchQuery));
         
-        var repos = new ReposView({
-            collection: reposCollection
-        });
+    //     var repos = new ReposView({
+    //         collection: reposCollection
+    //     });
         
-        git.append(repos.render().$el);
-    });
+    //     git.append(repos.render().$el);
+    // });
 
 });
