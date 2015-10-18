@@ -1,20 +1,35 @@
 $(document).foundation();
 
+var Octokat = require('octokat');
+
 var data = require("./lib/data");
 var ReposView = require("./lib/repos-view");
 
-console.log("loaded");
-
 var git = $('#git');
-console.log(git);
 
 $('.keyword__item').on("click",function(){
     
-    var keywordSelection = $(this).text();
-    console.log(keywordSelection);
+    var keyword = $(this).text();
+    console.log(keyword);
     
+    var octo = new Octokat();
+    var repos = octo.search('repositories');
+
+    var qualifiers = keyword +" "+"user:noratop fork:true";
+
+    var search = {
+        q: qualifiers,
+        sort : "updated",
+        order: "asc"
+    }
+    
+    repos.fetch(search) // Use `.read` to get the raw file.
+    .then(function(contents) { // `.fetch` is used for getting JSON
+        console.log(contents);
+    });
+
     var reposCollection = new data.RepoCollection(null,{
-        keyword: keywordSelection
+        keyword: keyword
     });
     
     console.log(reposCollection.getFilter());

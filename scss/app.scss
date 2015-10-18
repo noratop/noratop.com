@@ -198,13 +198,13 @@ header {
         list-style-type:none;
         
         a {
-            color: tomato;
+            color: $myColor;
             text-decoration:none;
         }
 
         &__item {
             display:inline-block;
-            border:1px $myColor solid;
+            border:2px $myColor solid;
             border-radius: 2px;
             padding:0.3em;
             
