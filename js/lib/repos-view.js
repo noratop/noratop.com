@@ -9,8 +9,7 @@ var ReposView = Backbone.View.extend({
     tagName: 'ul',
     className: '',
     render: function() {
-<<<<<<< HEAD
-    
+
     var subViews = this.collection.map(function(currentModel) {
         return new RepoView({model: currentModel}).render().$el;
     });
@@ -54,23 +53,6 @@ var ReposView = Backbone.View.extend({
     //         );
     //     }
     // },
-
-=======
-        
-        var subViews = this.collection.map(function(currentModel) {
-            return new RepoView({model: currentModel}).render().$el;
-        });
-        this.$el.empty().append(subViews);
-        
-        // This version will create a lot of reflows
-        // this.$el.empty();
-        // for (var i = 0; i < this.model.length; i++) {
-        //     this.$el.append(new RepoView({model: this.model[i]}).render().$el);
-        // }
-        
-        return this;
-    }
->>>>>>> octokat search request ok
 });
 
 module.exports = ReposView;
