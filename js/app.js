@@ -1,27 +1,29 @@
 $(document).foundation();
-
+var queryString = require('query-string');
 var data = require("./lib/data");
 var ReposView = require("./lib/repos-view");
 
-console.log("loaded");
+//console.log("loaded");
 
 var git = $('#git');
-console.log(git);
+var user = "noratop";
+
+//console.log(git);
 
 $('.keyword__item').on("click",function(){
     
     var keywordSelection = $(this).text();
-    console.log(keywordSelection);
+    // console.log(keywordSelection);
     
     var reposCollection = new data.RepoCollection(null,{
-        keyword: keywordSelection
+        keyword: keywordSelection,
+        user: user
     });
     
-    console.log(reposCollection.getFilter());
-    reposCollection.fetch({data:reposCollection.getFilter()}).then(function(){
+    reposCollection.fetch({data: queryString.stringify(reposCollection.searchQuery)}).then(function(){
         
-        console.log("collection fetch");
-        console.log(reposCollection);
+        // console.log("collection fetch");
+        // console.log(queryString.stringify(reposCollection.searchQuery));
         
         var repos = new ReposView({
             collection: reposCollection

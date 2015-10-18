@@ -45,29 +45,31 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	$(document).foundation();
+	var queryString = __webpack_require__(1);
+	var data = __webpack_require__(3);
+	var ReposView = __webpack_require__(7);
 
-	var data = __webpack_require__(1);
-	var ReposView = __webpack_require__(5);
-
-	console.log("loaded");
+	//console.log("loaded");
 
 	var git = $('#git');
-	console.log(git);
+	var user = "noratop";
+
+	//console.log(git);
 
 	$('.keyword__item').on("click",function(){
 	    
 	    var keywordSelection = $(this).text();
-	    console.log(keywordSelection);
+	    // console.log(keywordSelection);
 	    
 	    var reposCollection = new data.RepoCollection(null,{
-	        keyword: keywordSelection
+	        keyword: keywordSelection,
+	        user: user
 	    });
 	    
-	    console.log(reposCollection.getFilter());
-	    reposCollection.fetch({data:reposCollection.getFilter()}).then(function(){
+	    reposCollection.fetch({data: queryString.stringify(reposCollection.searchQuery)}).then(function(){
 	        
-	        console.log("collection fetch");
-	        console.log(reposCollection);
+	        // console.log("collection fetch");
+	        // console.log(queryString.stringify(reposCollection.searchQuery));
 	        
 	        var repos = new ReposView({
 	            collection: reposCollection
@@ -82,13 +84,93 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Backbone = __webpack_require__(2);
+	'use strict';
+	var strictUriEncode = __webpack_require__(2);
+
+	exports.extract = function (str) {
+		return str.split('?')[1] || '';
+	};
+
+	exports.parse = function (str) {
+		if (typeof str !== 'string') {
+			return {};
+		}
+
+		str = str.trim().replace(/^(\?|#|&)/, '');
+
+		if (!str) {
+			return {};
+		}
+
+		return str.split('&').reduce(function (ret, param) {
+			var parts = param.replace(/\+/g, ' ').split('=');
+			// Firefox (pre 40) decodes `%3D` to `=`
+			// https://github.com/sindresorhus/query-string/pull/37
+			var key = parts.shift();
+			var val = parts.length > 0 ? parts.join('=') : undefined;
+
+			key = decodeURIComponent(key);
+
+			// missing `=` should be `null`:
+			// http://w3.org/TR/2012/WD-url-20120524/#collect-url-parameters
+			val = val === undefined ? null : decodeURIComponent(val);
+
+			if (!ret.hasOwnProperty(key)) {
+				ret[key] = val;
+			} else if (Array.isArray(ret[key])) {
+				ret[key].push(val);
+			} else {
+				ret[key] = [ret[key], val];
+			}
+
+			return ret;
+		}, {});
+	};
+
+	exports.stringify = function (obj) {
+		return obj ? Object.keys(obj).sort().map(function (key) {
+			var val = obj[key];
+
+			if (val === undefined) {
+				return '';
+			}
+
+			if (val === null) {
+				return key;
+			}
+
+			if (Array.isArray(val)) {
+				return val.sort().map(function (val2) {
+					return strictUriEncode(key) + '=' + strictUriEncode(val2);
+				}).join('&');
+			}
+
+			return strictUriEncode(key) + '=' + strictUriEncode(val);
+		}).filter(function (x) {
+			return x.length > 0;
+		}).join('&') : '';
+	};
+
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	'use strict';
+	module.exports = function (str) {
+		return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
+			return '%' + c.charCodeAt(0).toString(16);
+		});
+	};
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Backbone = __webpack_require__(4);
 
 	var gitURL = "https://api.github.com/";
-	var user = "noratop";
-
-
-	// Models & Collections
 
 	var Repo = Backbone.Model.extend({});
 
@@ -96,14 +178,13 @@
 	    model: Repo,
 	    initialize: function(models, options) {
 	        this.keyword = options.keyword; // search term can also contain any combination of the supported repository search qualifiers 
-	        // this.sort = "updated" // 
-	        // this.in = options.in, // Qualifies which fields are searched. With this qualifier you can restrict the search to just the repository name, description, readme, or any combination of these.
-	        // this.size = options.size, //Finds repositories that match a certain size (in kilobytes).
-	        // this.forks = options.forks, //Filters repositories based on the number of forks.
-	        // this.fork = "true", // Filters whether forked repositories should be included (true) or only forked repositories should be returned (only)
-	        // this.in = options.in,
-	        // this.in = options.in
-	        this.getFilter = function(){return "q="+this.keyword+"+user:"+user+"+fork:true"+"&sort=updated&order=asc";};
+	        this.user = options.user;
+	        this.getQ = function(){return this.keyword +" user:"+this.user+" fork:true";};
+	        this.searchQuery = {
+	            q: this.getQ(),
+	            sort : "updated",
+	            order: "asc"
+	        };
 	    },
 	    parse: function(response) {
 	        return response.items;
@@ -117,7 +198,7 @@
 	};
 
 /***/ },
-/* 2 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {//     Backbone.js 1.2.3
@@ -136,7 +217,7 @@
 
 	  // Set up Backbone appropriately for the environment. Start with AMD.
 	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(3), __webpack_require__(4), exports], __WEBPACK_AMD_DEFINE_RESULT__ = function(_, $, exports) {
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(5), __webpack_require__(6), exports], __WEBPACK_AMD_DEFINE_RESULT__ = function(_, $, exports) {
 	      // Export global even in AMD case in case this script is loaded with
 	      // others that may still expect a global Backbone.
 	      root.Backbone = factory(root, exports, _, $);
@@ -2018,7 +2099,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 3 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscore.js 1.8.3
@@ -3572,7 +3653,7 @@
 
 
 /***/ },
-/* 4 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -12788,14 +12869,14 @@
 
 
 /***/ },
-/* 5 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Backbone = __webpack_require__(2);
-	var _ = __webpack_require__(6);
+	var Backbone = __webpack_require__(4);
+	var _ = __webpack_require__(8);
 
 	// Views
-	var RepoView = __webpack_require__(7);
+	var RepoView = __webpack_require__(9);
 
 	var ReposView = Backbone.View.extend({
 	    collection: null,
@@ -12851,7 +12932,7 @@
 	module.exports = ReposView;
 
 /***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscore.js 1.8.3
@@ -14405,12 +14486,12 @@
 
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Backbone = __webpack_require__(2);
-	var _ = __webpack_require__(6);
-	var repoTemplate = __webpack_require__(8);
+	var Backbone = __webpack_require__(4);
+	var _ = __webpack_require__(8);
+	var repoTemplate = __webpack_require__(10);
 
 	var RepoView = Backbone.View.extend({
 	    template: _.template( repoTemplate ),
@@ -14426,7 +14507,7 @@
 	module.exports = RepoView;
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports) {
 
 	module.exports = "<p><%= model.get('name') %></p>"
