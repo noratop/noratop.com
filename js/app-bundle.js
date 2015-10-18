@@ -55,43 +55,63 @@
 
 	$('.keyword__item').on("click",function(){
 	    
-	    var keyword = $(this).text();
-	    console.log(keyword);
-	    
+	    var keyword = $(this).text();console.log(keyword);
 	    var octo = new Octokat();
 	    var repos = octo.search('repositories');
 
-	    var qualifiers = keyword +" "+"user:noratop fork:true";
 
+	    //search contains the definition of the search API request
+	    var qualifiers = keyword +" "+"user:noratop fork:true";
 	    var search = {
 	        q: qualifiers,
 	        sort : "updated",
 	        order: "asc"
 	    }
 	    
-	    repos.fetch(search) // Use `.read` to get the raw file.
-	    .then(function(contents) { // `.fetch` is used for getting JSON
-	        console.log(contents);
+	    //search a callback (if not given -> Promises) and a config that is passed through toQueryString
+	    repos.fetch(search)
+	    .then(function(result) {
+	        //console.log("repo found");
+	        return result.items;
+	    })
+	    .then(function(searchResult){
+	        console.log("search");
+	        console.log(searchResult);
+	        searchResult.forEach(function(repo){
+	            // repo.parent.pulls.fetch().then(function(res){
+	            //     console.log(res);
+	            // })
+	            console.log(repo);
+	        })
 	    });
+	})
 
-	    var reposCollection = new data.RepoCollection(null,{
-	        keyword: keyword
-	    });
+
+
+
+
+
+
+
+
+	    // var reposCollection = new data.RepoCollection(null,{
+	    //     keyword: keyword
+	    // });
 	    
-	    console.log(reposCollection.getFilter());
-	    reposCollection.fetch({data:reposCollection.getFilter()}).then(function(){
+	    // console.log(reposCollection.getFilter());
+	    // reposCollection.fetch({data:reposCollection.getFilter()}).then(function(){
 	        
-	        console.log("collection fetch");
-	        console.log(reposCollection);
+	    //     console.log("collection fetch");
+	    //     console.log(reposCollection);
 	        
-	        var repos = new ReposView({
-	            collection: reposCollection
-	        });
+	    //     var repos = new ReposView({
+	    //         collection: reposCollection
+	    //     });
 	        
-	        git.append(repos.render().$el);
-	    });
+	    //     git.append(repos.render().$el);
+	    // });
 
-	});
+	// });
 
 /***/ },
 /* 1 */
