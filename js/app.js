@@ -20,7 +20,15 @@ $('.keyword__item').on("click",function(){
         user: user
     });
     
-    reposCollection.fetch({data: queryString.stringify(reposCollection.searchQuery)}).then(function(){
+    reposCollection.fetch({data: queryString.stringify(reposCollection.searchQuery)})
+    .then(function(){
+        reposCollection.map(function(currentModel) {
+        // var parent = 
+        console.log(currentModel);
+        currentModel.set({test:"youpi"});
+        })
+    })
+    .then(function(){
         
         // console.log("collection fetch");
         // console.log(queryString.stringify(reposCollection.searchQuery));

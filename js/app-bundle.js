@@ -66,7 +66,15 @@
 	        user: user
 	    });
 	    
-	    reposCollection.fetch({data: queryString.stringify(reposCollection.searchQuery)}).then(function(){
+	    reposCollection.fetch({data: queryString.stringify(reposCollection.searchQuery)})
+	    .then(function(){
+	        reposCollection.map(function(currentModel) {
+	        // var parent = 
+	        console.log(currentModel);
+	        currentModel.set({test:"youpi"});
+	        })
+	    })
+	    .then(function(){
 	        
 	        // console.log("collection fetch");
 	        // console.log(queryString.stringify(reposCollection.searchQuery));
@@ -12882,6 +12890,21 @@
 	    collection: null,
 	    tagName: 'ul',
 	    className: '',
+	    render: function() {
+	    
+	    var subViews = this.collection.map(function(currentModel) {
+	        return new RepoView({model: currentModel}).render().$el;
+	    });
+	    this.$el.empty().append(subViews);
+	    
+	    // This version will create a lot of reflows
+	    // this.$el.empty();
+	    // for (var i = 0; i < this.model.length; i++) {
+	    //     this.$el.append(new RepoView({model: this.model[i]}).render().$el);
+	    // }
+	    
+	    return this;
+	    }
 	    // events: {
 	    //     'click .fi-pencil': 'editSomething',
 	    //     'keypress .edit-input': 'editCompleted'
@@ -12912,21 +12935,7 @@
 	    //         );
 	    //     }
 	    // },
-	    render: function() {
-	        
-	        var subViews = this.collection.map(function(currentModel) {
-	            return new RepoView({model: currentModel}).render().$el;
-	        });
-	        this.$el.empty().append(subViews);
-	        
-	        // This version will create a lot of reflows
-	        // this.$el.empty();
-	        // for (var i = 0; i < this.model.length; i++) {
-	        //     this.$el.append(new RepoView({model: this.model[i]}).render().$el);
-	        // }
-	        
-	        return this;
-	    }
+
 	});
 
 	module.exports = ReposView;
@@ -14510,7 +14519,7 @@
 /* 10 */
 /***/ function(module, exports) {
 
-	module.exports = "<p><%= model.get('name') %></p>"
+	module.exports = "<p><%= model.get('name') %> <%= model.get('test') %></p>"
 
 /***/ }
 /******/ ]);
