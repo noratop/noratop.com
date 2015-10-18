@@ -15,19 +15,31 @@ $('.keyword__item').on("click",function(){
     var octo = new Octokat();
     var repos = octo.search('repositories');
 
+    //search contains the definition of the search API request
     var qualifiers = keyword +" user:"+user+" fork:true";
-
     var search = {
         q: qualifiers,
         sort : "updated",
         order: "asc"
     }
     
-    repos.fetch(search) // Use `.read` to get the raw file.
-    .then(function(contents) { // `.fetch` is used for getting JSON
-        console.log(contents);
+    //search a callback (if not given -> Promises) and a config that is passed through toQueryString
+    repos.fetch(search)
+    .then(function(result) {
+        //console.log("repo found");
+        return result.items;
+    })
+    .then(function(searchResult){
+        console.log("search");
+        console.log(searchResult);
+        searchResult.forEach(function(repo){
+            // repo.parent.pulls.fetch().then(function(res){
+            //     console.log(res);
+            // })
+            console.log(repo);
+        })
     });
-    
+
     
 
     // var reposCollection = new data.RepoCollection(null,{
@@ -47,6 +59,26 @@ $('.keyword__item').on("click",function(){
         
     //     // console.log("collection fetch");
     //     // console.log(queryString.stringify(reposCollection.searchQuery));
+})
+
+
+
+
+
+
+
+
+
+    // var reposCollection = new data.RepoCollection(null,{
+    //     keyword: keyword
+    // });
+    
+    // console.log(reposCollection.getFilter());
+    // reposCollection.fetch({data:reposCollection.getFilter()}).then(function(){
+        
+    //     console.log("collection fetch");
+    //     console.log(reposCollection);
+>>>>>>> access to repo but no parent attribute
         
     //     var repos = new ReposView({
     //         collection: reposCollection
@@ -55,4 +87,4 @@ $('.keyword__item').on("click",function(){
     //     git.append(repos.render().$el);
     // });
 
-});
+// });
