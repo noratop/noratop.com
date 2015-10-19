@@ -1,12 +1,12 @@
 var Backbone = require('backbone');
 var _ = require("underscore");
-var repoTemplate = require('raw!./repo-view-template.ejs');
+var navTemplate = require('raw!./nav-view-template.ejs');
 
 var RepoView = Backbone.View.extend({
-    template: _.template( repoTemplate ),
+    template: _.template( navTemplate ),
     model: null,
-    tagName: 'div',
-    className: '',
+    tagName: 'li',
+    className: 'nav__item',
     render: function() {
         this.$el.html(this.template({model: this.model}));
         return this;

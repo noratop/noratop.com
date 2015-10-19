@@ -49,8 +49,10 @@
 
 	var data = __webpack_require__(53);
 	var ReposView = __webpack_require__(57);
+	var ReposNavView = __webpack_require__(61);
 
 	var git = $('#git');
+	var nav = $("#nav");
 	var user = "noratop";
 
 	$('.keyword__item').on("click",function(){
@@ -80,12 +82,49 @@
 	            user: user
 	        });
 	        
-	        var repos = new ReposView({
+	        var repos = new ReposNavView({
 	            collection: reposCollection
 	        });
 	        
-	        git.append(repos.render().$el);
+	        // var magellan = $('<div>').attr("data-magellan-expedition","fixed");
+	        nav.append(repos.render().$el);
+	        // git.append(magellan);
 	    })
+	    
+	    $('.nav__item').on("click",function(){
+	        
+	        console.log("ff");
+	        var repoName = $(this).text();
+	    
+	        var octo = new Octokat();
+	        var repos = octo.repos(user,repoName);
+	        
+	        repos.fetch()
+	        .then(function(result) {
+	            console.log(result);
+	        })
+	    })
+	});
+
+
+	        // var reposCollection = new data.RepoCollection(result.items,{
+	        //     keyword: keyword,
+	        //     user: user
+	        // });
+	        
+	        // var repos = new ReposView({
+	        //     collection: reposCollection
+	        // });
+	        
+	        // git.append(repos.render().$el);
+
+
+
+
+
+
+
+
 	    // .then(function(searchResult){
 	    //     //console.log("search");
 	    //     console.log(searchResult);
@@ -115,7 +154,6 @@
 	    //     git.append(repos.render().$el);
 	    // });
 
-	});
 
 
 /***/ },
@@ -22905,9 +22943,11 @@
 	var ReposView = Backbone.View.extend({
 	    collection: null,
 	    tagName: 'ul',
-	    className: '',
+	    // className: 'side-nav',
+	    attributes:{class :'side-nav'},
 	    render: function() {
 
+	    // leaving this option on the side first because this 
 	    var subViews = this.collection.map(function(currentModel) {
 	        return new RepoView({model: currentModel}).render().$el;
 	    });
@@ -24520,7 +24560,7 @@
 	var RepoView = Backbone.View.extend({
 	    template: _.template( repoTemplate ),
 	    model: null,
-	    tagName: 'li',
+	    tagName: 'div',
 	    className: '',
 	    render: function() {
 	        this.$el.html(this.template({model: this.model}));
@@ -24534,7 +24574,122 @@
 /* 60 */
 /***/ function(module, exports) {
 
-	module.exports = "<p><%= model.get('name') %> <%= model.get('test') %></p>"
+	module.exports = "<a href=\"#git\"><%= model.get('name') %> <%= model.get('test') %>\n</a>"
+
+/***/ },
+/* 61 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Backbone = __webpack_require__(54);
+	var _ = __webpack_require__(58);
+	var displayRepo = __webpack_require__(62);
+
+	// Views
+	var NavView = __webpack_require__(63);
+
+	var ReposNavView = Backbone.View.extend({
+	    collection: null,
+	    tagName: 'ul',
+	    attributes:{"class" :"side-nav"},
+	    render: function() {
+
+	    var subViews = this.collection.map(function(currentModel) {
+	        return new NavView({model: currentModel}).render().$el;
+	    });
+	    this.$el.empty().append(subViews);
+	    
+	    // This version will create a lot of reflows
+	    // this.$el.empty();
+	    // for (var i = 0; i < this.model.length; i++) {
+	    //     this.$el.append(new RepoView({model: this.model[i]}).render().$el);
+	    // }
+	    
+	    return this;
+	    },
+	    events: {
+	        'click .nav__item': 'showRepo',
+	        // 'keypress .edit-input': 'editCompleted'
+	    },
+	    showRepo: function(evt) {
+	        var $this = $(evt.target);
+	        var repoName = $this.text();
+	        //console.log(repoName);
+	        displayRepo(repoName);
+
+	        // var attribut = $this.attr("name");
+	        // $this.replaceWith('<input class="edit-input" name='+attribut+' type="text" value="' + origText + '">');
+	    }
+	    // editCompleted: function(evt) {
+	    //     var $this = $(evt.target);
+	    //     var attribut = $this.attr("name");
+	    //     if (evt.keyCode === 13) {
+	    //         //console.log(this);
+	    //         var inputValue = $this.val();
+	    //         var view = this;
+	    //         this.model.set(attribut, inputValue);
+	    //         this.model.save(null, {attrs: this.model.changedAttributes()}).then(
+	    //             function(successResult) {
+	    //                 //alert('model has been saved');
+	    //                 console.log(successResult);
+	    //                 view.render();
+	    //             },
+	    //             function(errorResult) {
+	                    
+	    //             }
+	    //         );
+	    //     }
+	    // },
+	});
+
+	module.exports = ReposNavView;
+
+/***/ },
+/* 62 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Octokat = __webpack_require__(1);
+	var user = "noratop";
+
+	var gitRepo = $("#git-repo");
+
+	function displayRepo(repoName) {
+	    var octo = new Octokat();
+	    var repos = octo.repos(user,repoName);
+	    
+	    repos.fetch()
+	    .then(function(result) {
+	        
+	    })
+	}
+
+	module.exports = displayRepo;
+
+/***/ },
+/* 63 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Backbone = __webpack_require__(54);
+	var _ = __webpack_require__(58);
+	var navTemplate = __webpack_require__(64);
+
+	var RepoView = Backbone.View.extend({
+	    template: _.template( navTemplate ),
+	    model: null,
+	    tagName: 'li',
+	    className: 'nav__item',
+	    render: function() {
+	        this.$el.html(this.template({model: this.model}));
+	        return this;
+	    }
+	});
+
+	module.exports = RepoView;
+
+/***/ },
+/* 64 */
+/***/ function(module, exports) {
+
+	module.exports = "<%= model.get('name') %>"
 
 /***/ }
 /******/ ]);

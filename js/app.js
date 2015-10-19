@@ -3,8 +3,10 @@ var Octokat = require('octokat');
 
 var data = require("./lib/data");
 var ReposView = require("./lib/repos-view");
+var ReposNavView = require("./lib/repos-nav-view");
 
 var git = $('#git');
+var nav = $("#nav");
 var user = "noratop";
 
 $('.keyword__item').on("click",function(){
@@ -34,12 +36,49 @@ $('.keyword__item').on("click",function(){
             user: user
         });
         
-        var repos = new ReposView({
+        var repos = new ReposNavView({
             collection: reposCollection
         });
         
-        git.append(repos.render().$el);
+        // var magellan = $('<div>').attr("data-magellan-expedition","fixed");
+        nav.append(repos.render().$el);
+        // git.append(magellan);
     })
+    
+    $('.nav__item').on("click",function(){
+        
+        console.log("ff");
+        var repoName = $(this).text();
+    
+        var octo = new Octokat();
+        var repos = octo.repos(user,repoName);
+        
+        repos.fetch()
+        .then(function(result) {
+            console.log(result);
+        })
+    })
+});
+
+
+        // var reposCollection = new data.RepoCollection(result.items,{
+        //     keyword: keyword,
+        //     user: user
+        // });
+        
+        // var repos = new ReposView({
+        //     collection: reposCollection
+        // });
+        
+        // git.append(repos.render().$el);
+
+
+
+
+
+
+
+
     // .then(function(searchResult){
     //     //console.log("search");
     //     console.log(searchResult);
@@ -69,4 +108,3 @@ $('.keyword__item').on("click",function(){
     //     git.append(repos.render().$el);
     // });
 
-});

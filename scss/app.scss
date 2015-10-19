@@ -19,14 +19,14 @@
 //   "foundation/components/joyride",
 //   "foundation/components/keystrokes",
 //   "foundation/components/labels",
-//   "foundation/components/magellan",
+@import "foundation/components/magellan";
 //   "foundation/components/orbit",
 //   "foundation/components/pagination",
 //   "foundation/components/panels",
 //   "foundation/components/pricing-tables",
 //   "foundation/components/progress-bars",
 //   "foundation/components/reveal",
-//   "foundation/components/side-nav",
+@import "foundation/components/side-nav";
 //   "foundation/components/split-buttons",
 //   "foundation/components/sub-nav",
 //   "foundation/components/switches",
@@ -206,7 +206,7 @@ header {
             display:inline-block;
             border:2px $myColor solid;
             border-radius: 2px;
-            padding:0.3em;
+            padding:1.3em;
             
             &:hover {
                 a {color:white;}
@@ -219,5 +219,13 @@ header {
 
 #git {
     display : block;
-    margin: 3em;
+    //margin: 6em;
+}
+
+#nav {
+    text-align:left;
+    float:left;
+    ul {
+        width:20%;
+    }
 }

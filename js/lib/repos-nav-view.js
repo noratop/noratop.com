@@ -1,19 +1,18 @@
 var Backbone = require('backbone');
 var _ = require("underscore");
+var displayRepo = require("./display-repo");
 
 // Views
-var RepoView = require('./repo-view');
+var NavView = require('./nav-view');
 
-var ReposView = Backbone.View.extend({
+var ReposNavView = Backbone.View.extend({
     collection: null,
     tagName: 'ul',
-    // className: 'side-nav',
-    attributes:{class :'side-nav'},
+    attributes:{"class" :"side-nav"},
     render: function() {
 
-    // leaving this option on the side first because this 
     var subViews = this.collection.map(function(currentModel) {
-        return new RepoView({model: currentModel}).render().$el;
+        return new NavView({model: currentModel}).render().$el;
     });
     this.$el.empty().append(subViews);
     
@@ -24,17 +23,20 @@ var ReposView = Backbone.View.extend({
     // }
     
     return this;
+    },
+    events: {
+        'click .nav__item': 'showRepo',
+        // 'keypress .edit-input': 'editCompleted'
+    },
+    showRepo: function(evt) {
+        var $this = $(evt.target);
+        var repoName = $this.text();
+        //console.log(repoName);
+        displayRepo(repoName);
+
+        // var attribut = $this.attr("name");
+        // $this.replaceWith('<input class="edit-input" name='+attribut+' type="text" value="' + origText + '">');
     }
-    // events: {
-    //     'click .fi-pencil': 'editSomething',
-    //     'keypress .edit-input': 'editCompleted'
-    // },
-    // editSomething: function(evt) {
-    //     var $this = $(evt.target).parent();
-    //     var origText = $this.text();
-    //     var attribut = $this.attr("name");
-    //     $this.replaceWith('<input class="edit-input" name='+attribut+' type="text" value="' + origText + '">');
-    // },
     // editCompleted: function(evt) {
     //     var $this = $(evt.target);
     //     var attribut = $this.attr("name");
@@ -57,4 +59,4 @@ var ReposView = Backbone.View.extend({
     // },
 });
 
-module.exports = ReposView;
+module.exports = ReposNavView;
