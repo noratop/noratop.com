@@ -24,5 +24,6 @@ var RepoCollection = Backbone.Collection.extend({
 
 
 module.exports = {
-    RepoCollection: RepoCollection
+    RepoCollection: RepoCollection,
+    Repo:Repo
 };

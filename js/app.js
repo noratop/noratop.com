@@ -2,7 +2,6 @@ $(document).foundation();
 var Octokat = require('octokat');
 
 var data = require("./lib/data");
-var ReposView = require("./lib/repos-view");
 var ReposNavView = require("./lib/repos-nav-view");
 
 var git = $('#git');
@@ -25,7 +24,7 @@ $('.keyword__item').on("click",function(){
         q: qualifiers,
         sort : "updated",
         order: "asc"
-    }
+    };
     
     //search a callback (if not given -> Promises) and a config that is passed through toQueryString
     repos.fetch(search)
@@ -43,21 +42,7 @@ $('.keyword__item').on("click",function(){
         // var magellan = $('<div>').attr("data-magellan-expedition","fixed");
         nav.append(repos.render().$el);
         // git.append(magellan);
-    })
-    
-    $('.nav__item').on("click",function(){
-        
-        console.log("ff");
-        var repoName = $(this).text();
-    
-        var octo = new Octokat();
-        var repos = octo.repos(user,repoName);
-        
-        repos.fetch()
-        .then(function(result) {
-            console.log(result);
-        })
-    })
+    });
 });
 
 
