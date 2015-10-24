@@ -48,10 +48,10 @@
 	var Octokat = __webpack_require__(1);
 
 	var data = __webpack_require__(53);
-	var ReposNavView = __webpack_require__(57);
+	var ReposBoardView = __webpack_require__(57);
 
 	var git = $('#git');
-	var nav = $("#nav");
+	// var nav = $("#nav");
 	var user = "noratop";
 
 	$('.keyword__item').on("click",function(){
@@ -59,7 +59,10 @@
 	    var keyword = $(this).text();
 	    //console.log(keyword);
 
-	    var octo = new Octokat();
+	    var octo = new Octokat({
+	        username:"noratop",
+	        password:"raspig84"
+	    });
 	    var repos = octo.search('repositories');
 	    
 	    //octo.repos(user, "node-workshop-2").fetch().then(function(e){console.log(e)});
@@ -76,71 +79,20 @@
 	    repos.fetch(search)
 	    .then(function(result) {
 	        
-
 	        var reposCollection = new data.RepoCollection(result.items,{
 	            keyword: keyword,
 	            user: user
 	        });
 	        
-	        var repos = new ReposNavView({
+	        var repos = new ReposBoardView({
 	            collection: reposCollection
 	        });
 	        
-	        // var magellan = $('<div>').attr("data-magellan-expedition","fixed");
-	        nav.append(repos.render().$el);
-	        // git.append(magellan);
+	        git.append(repos.render().$el);
+	        
+	        $('body').animate({scrollTop: $(".keyword").offset().top},'slow');
 	    });
 	});
-
-
-	        // var reposCollection = new data.RepoCollection(result.items,{
-	        //     keyword: keyword,
-	        //     user: user
-	        // });
-	        
-	        // var repos = new ReposView({
-	        //     collection: reposCollection
-	        // });
-	        
-	        // git.append(repos.render().$el);
-
-
-
-
-
-
-
-
-	    // .then(function(searchResult){
-	    //     //console.log("search");
-	    //     console.log(searchResult);
-	        
-	        
-	    // })
-	    
-	    // var reposCollection = new data.RepoCollection(null,{
-	    //     keyword: keywordSelection,
-	    //     user: user
-	    // });
-	    
-	    // reposCollection.fetch({data: queryString.stringify(reposCollection.searchQuery)})
-	    // .then(function(){
-	    //     reposCollection.map(function(currentModel) {
-	    //     // var parent = 
-	    //     console.log(currentModel);
-	    //     currentModel.set({test:"youpi"});
-	    //     })
-	    // })
-	    // .then(function(){
-
-	    //     var repos = new ReposView({
-	    //         collection: reposCollection
-	    //     });
-	        
-	    //     git.append(repos.render().$el);
-	    // });
-
-
 
 /***/ },
 /* 1 */
@@ -10220,7 +10172,12 @@
 
 	var gitURL = "https://api.github.com/";
 
-	var Repo = Backbone.Model.extend({});
+	var Repo = Backbone.Model.extend({
+	    // getMonthName: function(date_attribute){
+	    //     var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
+	    //     return monthNames[this.get(date_attribute).getMonth()];
+	    // }
+	});
 
 	var RepoCollection = Backbone.Collection.extend({
 	    model: Repo,
@@ -22923,28 +22880,21 @@
 
 	var Backbone = __webpack_require__(54);
 	var _ = __webpack_require__(58);
-	var displayRepo = __webpack_require__(59);
+	// var displayRepo = require("./display-repo");
 
-	// Views
-	var NavView = __webpack_require__(62);
+	var cardView = __webpack_require__(59);
 
-	var ReposNavView = Backbone.View.extend({
+	var ReposCardView = Backbone.View.extend({
 	    collection: null,
 	    tagName: 'ul',
-	    attributes:{"class" :"side-nav"},
+	    attributes:{"class" :"git-board"},
 	    render: function() {
 
-	    var subViews = this.collection.map(function(currentModel) {
-	        return new NavView({model: currentModel}).render().$el;
+	    var cardViews = this.collection.map(function(currentModel) {
+	        return new cardView({model: currentModel}).render().$el;
 	    });
-	    this.$el.empty().append(subViews);
-	    
-	    // This version will create a lot of reflows
-	    // this.$el.empty();
-	    // for (var i = 0; i < this.model.length; i++) {
-	    //     this.$el.append(new RepoView({model: this.model[i]}).render().$el);
-	    // }
-	    
+	    this.$el.empty().append(cardViews);
+
 	    return this;
 	    },
 	    events: {
@@ -22955,34 +22905,14 @@
 	        var $this = $(evt.target);
 	        var repoName = $this.text();
 	        //console.log(repoName);
-	        displayRepo(repoName);
+	        //displayRepo(repoName);
 
 	        // var attribut = $this.attr("name");
 	        // $this.replaceWith('<input class="edit-input" name='+attribut+' type="text" value="' + origText + '">');
 	    }
-	    // editCompleted: function(evt) {
-	    //     var $this = $(evt.target);
-	    //     var attribut = $this.attr("name");
-	    //     if (evt.keyCode === 13) {
-	    //         //console.log(this);
-	    //         var inputValue = $this.val();
-	    //         var view = this;
-	    //         this.model.set(attribut, inputValue);
-	    //         this.model.save(null, {attrs: this.model.changedAttributes()}).then(
-	    //             function(successResult) {
-	    //                 //alert('model has been saved');
-	    //                 console.log(successResult);
-	    //                 view.render();
-	    //             },
-	    //             function(errorResult) {
-	                    
-	    //             }
-	    //         );
-	    //     }
-	    // },
 	});
 
-	module.exports = ReposNavView;
+	module.exports = ReposCardView;
 
 /***/ },
 /* 58 */
@@ -24542,85 +24472,28 @@
 /* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Octokat = __webpack_require__(1);
-	var RepoView = __webpack_require__(60);
-	var data = __webpack_require__(53);
+	var Backbone = __webpack_require__(54);
+	var _ = __webpack_require__(58);
+	var cardTemplate = __webpack_require__(60);
 
-	var gitRepo = $("#git-repo");
+	var RepoView = Backbone.View.extend({
+	    template: _.template( cardTemplate ),
+	    model: null,
+	    tagName: 'li',
+	    className: 'git-board__item',
+	    render: function() {
+	        this.$el.html(this.template({model: this.model}));
+	        return this;
+	    }
+	});
 
-	function displayRepo(repoName) {
-	    var user = "noratop";
-	    var octo = new Octokat();
-	    var myRepo = octo.repos(user,repoName);
-	    
-	    myRepo.fetch()
-	    .then(function(result) {
-	        console.log(result);
-	        var repoModel = new data.Repo(result);
-	        
-	        var repoView = new RepoView({
-	            model: repoModel
-	        });
-	        
-	        gitRepo.append(repoView.render().$el);
-	    })
-	}
-
-	module.exports = displayRepo;
+	module.exports = RepoView;
 
 /***/ },
 /* 60 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Backbone = __webpack_require__(54);
-	var _ = __webpack_require__(58);
-	var repoTemplate = __webpack_require__(61);
-
-	var RepoView = Backbone.View.extend({
-	    template: _.template( repoTemplate ),
-	    model: null,
-	    tagName: 'div',
-	    className: '',
-	    render: function() {
-	        this.$el.html(this.template({model: this.model}));
-	        return this;
-	    }
-	});
-
-	module.exports = RepoView;
-
-/***/ },
-/* 61 */
 /***/ function(module, exports) {
 
-	module.exports = "<a href=\"#git\"><%= model.get('name') %> <%= model.get('test') %>\n</a>"
-
-/***/ },
-/* 62 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Backbone = __webpack_require__(54);
-	var _ = __webpack_require__(58);
-	var navTemplate = __webpack_require__(63);
-
-	var RepoView = Backbone.View.extend({
-	    template: _.template( navTemplate ),
-	    model: null,
-	    tagName: 'li',
-	    className: 'nav__item',
-	    render: function() {
-	        this.$el.html(this.template({model: this.model}));
-	        return this;
-	    }
-	});
-
-	module.exports = RepoView;
-
-/***/ },
-/* 63 */
-/***/ function(module, exports) {
-
-	module.exports = "<%console.log(model);%>\n<p><%= model.get('description') %></p>\n<p>Created on <%= model.get('createdAt').getFullYear() %>/<%= model.get('createdAt').getMonth() %>/<%= model.get('createdAt').getDate() %></p>"
+	module.exports = "<%console.log(model);%>\n<p><%= model.get('name') %></p>\n<p>Created on <%= model.get('createdAt').getFullYear() %>/<%= model.get('createdAt').getMonth() %>/<%= model.get('createdAt').getDate() %></p>"
 
 /***/ }
 /******/ ]);

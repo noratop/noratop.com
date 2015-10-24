@@ -39,35 +39,8 @@
 //   "foundation/components/offcanvas",
 //   "foundation/components/visibility";
 
+
 $back: repeating-linear-gradient(
-        //     90deg, 
-        //     transparent, 
-        //     transparent 50px, 
-        //     rgba(255, 127, 0, 0.25) 50px, 
-        //     rgba(255, 127, 0, 0.25) 56px, 
-        //     transparent 56px, 
-        //     transparent 63px, 
-        //     rgba(255, 127, 0, 0.25) 63px, 
-        //     rgba(255, 127, 0, 0.25) 69px, 
-        //     transparent 69px, 
-        //     transparent 116px, 
-        //     rgba(255, 206, 0, 0.25) 116px, 
-        //     rgba(255, 206, 0, 0.25) 166px
-        // ),
-        // repeating-linear-gradient(
-        //     0deg, transparent, transparent 50px, 
-        //     rgba(255, 127, 0, 0.25) 50px, 
-        //     rgba(255, 127, 0, 0.25) 56px, 
-        //     transparent 56px, 
-        //     transparent 63px, 
-        //     rgba(255, 127, 0, 0.25) 63px, 
-        //     rgba(255, 127, 0, 0.25) 69px, 
-        //     transparent 69px, 
-        //     transparent 116px, 
-        //     rgba(255, 206, 0, 0.25) 116px, 
-        //     rgba(255, 206, 0, 0.25) 166px
-        // );
-        // repeating-linear-gradient(
         -45deg, 
             transparent, 
             transparent 7px, 
@@ -82,13 +55,11 @@ $back: repeating-linear-gradient(
             transparent 7px, 
             rgba(143, 77, 63, 0.05) 30px, 
             rgba(143, 77, 63, 0.05) 60px
-//     transparent, 
-        //     transparent 5px, 
-        //     rgba(143, 77, 63, 0.25) 5px, 
-        //     rgba(143, 77, 63, 0.25) 10px
         );
 
 $myColor: tomato;
+
+
 
 
 /* apply a natural box layout model to all elements, but allowing components to change */
@@ -196,6 +167,7 @@ header {
     
     .keyword{
         list-style-type:none;
+        padding:0;
         
         a {
             color: $myColor;
@@ -204,9 +176,9 @@ header {
 
         &__item {
             display:inline-block;
-            border:2px $myColor solid;
-            border-radius: 2px;
-            padding:1.3em;
+            border:1px $myColor solid;
+            border-radius: 3px;
+            padding:7px;
             
             &:hover {
                 a {color:white;}
@@ -219,13 +191,28 @@ header {
 
 #git {
     display : block;
+    margin:10px;
     //margin: 6em;
-}
-
-#nav {
-    text-align:left;
-    float:left;
-    ul {
-        width:20%;
+    
+    .git-board {
+        border-radius:5px;
+        padding:1em 0.5em;
+        // background-color: #ccc;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: center;
+        
+        &__item {
+            margin:0.5em;
+            padding: 0 0.5em;
+            display:block;
+            background-color: Gainsboro;
+            // border: 1px grey solid;
+            border-radius:5px;
+            flex-grow:1;
+            flex-basis: 32%;
+            max-width: 33%;
+        }
     }
 }
