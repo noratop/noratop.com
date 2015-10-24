@@ -1,1 +1,3 @@
-<%= model.get('name') %>
+<%console.log(model);%>
+<p><%= model.get('description') %></p>
+<p>Created on <%= model.get('createdAt').getFullYear() %>/<%= model.get('createdAt').getMonth() %>/<%= model.get('createdAt').getDate() %></p>

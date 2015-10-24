@@ -30,6 +30,7 @@ $('.keyword__item').on("click",function(){
     repos.fetch(search)
     .then(function(result) {
         
+
         var reposCollection = new data.RepoCollection(result.items,{
             keyword: keyword,
             user: user

@@ -76,6 +76,7 @@
 	    repos.fetch(search)
 	    .then(function(result) {
 	        
+
 	        var reposCollection = new data.RepoCollection(result.items,{
 	            keyword: keyword,
 	            user: user
@@ -24542,25 +24543,26 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Octokat = __webpack_require__(1);
-	var user = "noratop";
 	var RepoView = __webpack_require__(60);
 	var data = __webpack_require__(53);
 
 	var gitRepo = $("#git-repo");
 
 	function displayRepo(repoName) {
+	    var user = "noratop";
 	    var octo = new Octokat();
-	    var repos = octo.repos(user,repoName);
+	    var myRepo = octo.repos(user,repoName);
 	    
-	    repos.fetch()
+	    myRepo.fetch()
 	    .then(function(result) {
-	        
+	        console.log(result);
 	        var repoModel = new data.Repo(result);
-	        var repo = new RepoView({
+	        
+	        var repoView = new RepoView({
 	            model: repoModel
 	        });
 	        
-	        gitRepo.append(repo.render().$el);
+	        gitRepo.append(repoView.render().$el);
 	    })
 	}
 
@@ -24618,7 +24620,7 @@
 /* 63 */
 /***/ function(module, exports) {
 
-	module.exports = "<%= model.get('name') %>"
+	module.exports = "<%console.log(model);%>\n<p><%= model.get('description') %></p>\n<p>Created on <%= model.get('createdAt').getFullYear() %>/<%= model.get('createdAt').getMonth() %>/<%= model.get('createdAt').getDate() %></p>"
 
 /***/ }
 /******/ ]);
