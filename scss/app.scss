@@ -82,7 +82,7 @@ body {
 }
 
 header {
-    text-align: left;
+    text-align: center;
     color: white;
     text-transform: full-width;
     text-shadow: 1px 1px 0.5em black;
@@ -91,48 +91,90 @@ header {
     background-image: $back,url(./../assets/img/head-backgd.png);
     font-size: 1.2em;
 
-    // @media # {$medium-up}
-    //{
-    
-    .container {
-        display: flex;
-        //align-items: center;
-        justify-content: space-between;
-    }
-    .title-block {
-        order: -1;
-        flex-basis:50vw;
-        padding: 0 5%;
-            
-        h1 {
-            font-weight:100;
-            font-size: 4.5em;
-            margin: 0;
-        }
-        
-        h2 {
-            padding-left: 1vw;
-        }
 
-        p {
-            padding-left: 2em;
-            font-style: italic;
-        }
+
+// 
+    .container {
+        background-color: rgba(255, 255, 255, 0.5);
+        overflow: hidden;
     }
-    
-    // }
 
     .photo-block {
-        //background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 20%,rgba(255, 255, 255, 0.8));
-        background-color: rgba(255, 255, 255, 0.5);
-        flex-basis:50vw;
         display: flex;
         align-items: flex-end;
         justify-content: center;
-
+        border: 5px white solid;
+        margin: 10px;
+        
         img {
             width: 100%;
             max-width: 400px;
+        }
+    }
+    
+    .title-block {
+        overflow:hidden;
+        padding:0 1em;
+        
+        h1 {
+            font-weight:100;
+            font-size: 3.5em;
+            margin: 0;
+            line-height: 120%;
+        }
+        
+        h2 {
+            margin:0;
+        }
+
+        p {
+            margin:0.5em 0;
+            font-style: italic;
+        }
+    }
+
+   
+    @media #{$medium-up}
+    {
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.3);
+            display: flex;
+            justify-content: space-between;
+        }
+        .title-block {
+            order: -1;
+            flex-basis:50vw;
+            padding: 0 5%;
+            text-align:left;
+    
+            h1 {
+                font-weight:100;
+                font-size: 4.2em;
+                margin: 0;
+                line-height: 150%;
+            }
+            
+            h2 {
+                margin:0.83em 0;
+                padding-left: 1vw;
+            }
+    
+            p {
+                padding-left: 2em;
+                margin:1em 0;
+                font-style: italic;
+            }
+        }
+        
+        // }
+    
+        .photo-block {
+            //background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 20%,rgba(255, 255, 255, 0.8));
+            background-color: rgba(255, 255, 255, 0.5);
+            flex-basis:50vw;
+            border:none;
+            margin:0;
         }
     }
 }
@@ -155,12 +197,14 @@ header {
     //     bottom:0;
     //     left:0;
     // }
-     
+        
     a {
+        margin:0 1vw;
         font-size:3.5em;
         color:white ;
     }
 }
+
 
 .content {
     color: Cadetblue  ;
@@ -168,11 +212,8 @@ header {
     .keyword{
         list-style-type:none;
         padding:0;
-        
-        a {
-            color: $myColor;
-            text-decoration:none;
-        }
+        color: $myColor;
+        cursor: pointer;
 
         &__item {
             display:inline-block;
@@ -181,7 +222,7 @@ header {
             padding:7px;
             
             &:hover {
-                a {color:white;}
+                color:white;
                 background-color: tomato;
             }
         }
@@ -192,7 +233,7 @@ header {
 #git {
     display : block;
     margin:10px;
-    //margin: 6em;
+    cursor: default;
     
     .git-board {
         border-radius:5px;
@@ -204,16 +245,26 @@ header {
         justify-content: center;
         
         &__item {
-            color:white;
+            font-weight:lighter;
             margin:0.5em;
-            padding: 0 0.5em;
-            display:block;
-            background-color: #FF7359;
+            background-color: tomato;
             //border: 1px grey solid;
             border-radius:5px;
             flex-grow:1;
-            flex-basis: 32%;
-            max-width: 33%;
+            flex-basis: 20%;
+            max-width: 25%;
+            list-style:none;
+            
+            a {
+                padding: 0 0.5em;
+                color:white;
+                text-decoration:none;
+            }
+            
+            
+            h3,p {
+                margin:0;
+            }
         }
     }
 }

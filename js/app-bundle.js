@@ -24509,7 +24509,7 @@
 	    tagName: 'li',
 	    className: 'git-board__item',
 	    render: function() {
-	        // console.log(this.model);
+	        console.log(this.model);
 	        // if (this.model.get("fork")){
 	            var octo = this.model.octo;
 	            // var user = this.model.get("parent").owner.login;
@@ -24546,7 +24546,7 @@
 /* 60 */
 /***/ function(module, exports) {
 
-	module.exports = "<h3><a href = \"<%= repo.get('htmlUrl') %>\" target=\"_blank\"><%= repo.get('name') %></a></h3>\n<p>Updated on <%= repo.get('pushedAt').getFullYear() %>/<%= repo.get('pushedAt').getMonth() %>/<%= repo.get('pushedAt').getDate() %></p>"
+	module.exports = "<a href = \"<%= repo.get('htmlUrl') %>\" target=\"_blank\">\n    <h3><%= repo.get('name') %></h3>\n    <p>Updated on <%= repo.get('pushedAt').getFullYear() %>/<%= repo.get('pushedAt').getMonth() + 1 %>/<%= repo.get('pushedAt').getDate() %></p>\n</a>"
 
 /***/ }
 /******/ ]);
