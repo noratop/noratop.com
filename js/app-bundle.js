@@ -67,7 +67,7 @@
 	    
 	    //octo.repos(user, "node-workshop-2").fetch().then(function(e){console.log(e)});
 
-	    //search contains the definition of the search API request
+	    //var search contains the search definition for the API request
 	    var qualifiers = keyword +" user:"+user+" fork:true";
 	    var search = {
 	        q: qualifiers,
@@ -22901,8 +22901,9 @@
 	        var cardViews = this.collection.map(function(currentModel) {
 	            octo.repos(user,currentModel.get("name")).fetch().then(function(res){
 	                var repo = new data.Repo(res,{octo: octo});
-	                return new cardView({model: repo}).render().$el;
+	                return new cardView({model: currentModel}).render().$el;
 	            })
+	            // return new cardView({model: currentModel}).render().$el;
 	        });
 	        this.$el.empty().append(cardViews);
 	        return this;
@@ -24495,12 +24496,12 @@
 	        console.log(this.model);
 	        if (this.model.get("fork")){
 	            var octo = this.model.octo;
-	            var user = this.model.get("parent").owner.login;
-	            var repoName = this.model.get("parent").name;
+	            // var user = this.model.get("parent").owner.login;
+	            // var repoName = this.model.get("parent").name;
 	            
 	            console.log(octo);
-	            console.log(user);
-	            console.log(repoName);
+	            // console.log(user);
+	            // console.log(repoName);
 	            // octo.repos(user,repoName).fetch().then(function(res){
 	            //     var fork = new data.Repo(res,{octo: octo});
 	            //     // return new cardView({model: repo}).render().$el;
@@ -24518,7 +24519,7 @@
 	        {
 	            this.$el.html(this.template({repo: this.model}));
 	        }
-	        
+
 	        return this;
 	    }
 	});

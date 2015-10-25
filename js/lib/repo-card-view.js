@@ -11,12 +11,12 @@ var cardView = Backbone.View.extend({
         console.log(this.model);
         if (this.model.get("fork")){
             var octo = this.model.octo;
-            var user = this.model.get("parent").owner.login;
-            var repoName = this.model.get("parent").name;
+            // var user = this.model.get("parent").owner.login;
+            // var repoName = this.model.get("parent").name;
             
             console.log(octo);
-            console.log(user);
-            console.log(repoName);
+            // console.log(user);
+            // console.log(repoName);
             // octo.repos(user,repoName).fetch().then(function(res){
             //     var fork = new data.Repo(res,{octo: octo});
             //     // return new cardView({model: repo}).render().$el;
@@ -34,7 +34,7 @@ var cardView = Backbone.View.extend({
         {
             this.$el.html(this.template({repo: this.model}));
         }
-        
+
         return this;
     }
 });

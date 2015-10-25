@@ -21,7 +21,7 @@ $('.keyword__item').on("click",function(){
     
     //octo.repos(user, "node-workshop-2").fetch().then(function(e){console.log(e)});
 
-    //search contains the definition of the search API request
+    //var search contains the search definition for the API request
     var qualifiers = keyword +" user:"+user+" fork:true";
     var search = {
         q: qualifiers,
