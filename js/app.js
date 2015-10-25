@@ -8,6 +8,18 @@ var git = $('#git');
 // var nav = $("#nav");
 var user = "noratop";
 
+
+$.fn.offScreen = function(){
+    var viewport = {};
+    viewport.top = $(window).scrollTop();
+    viewport.bottom = viewport.top + $(window).height();
+    var bounds = {};
+    bounds.top = this.offset().top;
+    bounds.bottom = bounds.top + this.outerHeight();
+    return ((bounds.top <= viewport.top) || (bounds.bottom >= viewport.bottom));
+}
+
+
 $('.keyword__item').on("click",function(){
     
     var keyword = $(this).text();
@@ -43,8 +55,16 @@ $('.keyword__item').on("click",function(){
             collection: reposCollection
         });
         
-        git.append(repos.render().$el);
+        if(!$.trim(git.html())) {git.append(repos.render().$el);}
+        else {
+            var initialScroll = $(window).scrollTop();
+            var board = git.find(".git-board");
+            board.replaceWith(repos.render().$el);
+            
+        }
         
-        $('body').animate({scrollTop: $(".keyword").offset().top - 5},'slow');
+        if (git.offScreen()){
+            $('body').animate({scrollTop: $(".keyword").offset().top - 5},'1000');
+        }
     });
 });

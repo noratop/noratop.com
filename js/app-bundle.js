@@ -54,6 +54,18 @@
 	// var nav = $("#nav");
 	var user = "noratop";
 
+
+	$.fn.offScreen = function(){
+	    var viewport = {};
+	    viewport.top = $(window).scrollTop();
+	    viewport.bottom = viewport.top + $(window).height();
+	    var bounds = {};
+	    bounds.top = this.offset().top;
+	    bounds.bottom = bounds.top + this.outerHeight();
+	    return ((bounds.top <= viewport.top) || (bounds.bottom >= viewport.bottom));
+	}
+
+
 	$('.keyword__item').on("click",function(){
 	    
 	    var keyword = $(this).text();
@@ -89,9 +101,17 @@
 	            collection: reposCollection
 	        });
 	        
-	        git.append(repos.render().$el);
+	        if(!$.trim(git.html())) {git.append(repos.render().$el);}
+	        else {
+	            var initialScroll = $(window).scrollTop();
+	            var board = git.find(".git-board");
+	            board.replaceWith(repos.render().$el);
+	            
+	        }
 	        
-	        $('body').animate({scrollTop: $(".keyword").offset().top - 5},'slow');
+	        if (git.offScreen()){
+	            $('body').animate({scrollTop: $(".keyword").offset().top - 5},'1000');
+	        }
 	    });
 	});
 
@@ -22899,11 +22919,7 @@
 	        var octo = this.collection.octo;
 	        var user = this.collection.user;
 	        var cardViews = this.collection.map(function(currentModel) {
-	            octo.repos(user,currentModel.get("name")).fetch().then(function(res){
-	                var repo = new data.Repo(res,{octo: octo});
-	                return new cardView({model: currentModel}).render().$el;
-	            })
-	            // return new cardView({model: currentModel}).render().$el;
+	            return new cardView({model: currentModel}).render().$el;
 	        });
 	        this.$el.empty().append(cardViews);
 	        return this;
@@ -24493,13 +24509,13 @@
 	    tagName: 'li',
 	    className: 'git-board__item',
 	    render: function() {
-	        console.log(this.model);
-	        if (this.model.get("fork")){
+	        // console.log(this.model);
+	        // if (this.model.get("fork")){
 	            var octo = this.model.octo;
 	            // var user = this.model.get("parent").owner.login;
 	            // var repoName = this.model.get("parent").name;
 	            
-	            console.log(octo);
+	            // console.log(octo);
 	            // console.log(user);
 	            // console.log(repoName);
 	            // octo.repos(user,repoName).fetch().then(function(res){
@@ -24512,14 +24528,14 @@
 	            //     }));
 	            // })
 	            
-	            this.$el.html(this.template({repo: this.model}));
+	        //     this.$el.html(this.template({repo: this.model}));
 
-	        }
-	        else
-	        {
-	            this.$el.html(this.template({repo: this.model}));
-	        }
-
+	        // }
+	        // else
+	        // {
+	        //     this.$el.html(this.template({repo: this.model}));
+	        // }
+	        this.$el.html(this.template({repo: this.model}));
 	        return this;
 	    }
 	});
@@ -24530,7 +24546,7 @@
 /* 60 */
 /***/ function(module, exports) {
 
-	module.exports = "<h3><%= repo.get('name') %></h3>\n<p>Created on <%= repo.get('createdAt').getFullYear() %>/<%= repo.get('createdAt').getMonth() %>/<%= repo.get('createdAt').getDate() %></p>"
+	module.exports = "<h3><a href = \"<%= repo.get('htmlUrl') %>\" target=\"_blank\"><%= repo.get('name') %></a></h3>\n<p>Updated on <%= repo.get('pushedAt').getFullYear() %>/<%= repo.get('pushedAt').getMonth() %>/<%= repo.get('pushedAt').getDate() %></p>"
 
 /***/ }
 /******/ ]);

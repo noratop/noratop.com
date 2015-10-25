@@ -1,2 +1,2 @@
-<h3><%= repo.get('name') %></h3>
-<p>Created on <%= repo.get('createdAt').getFullYear() %>/<%= repo.get('createdAt').getMonth() %>/<%= repo.get('createdAt').getDate() %></p>
+<h3><a href = "<%= repo.get('htmlUrl') %>" target="_blank"><%= repo.get('name') %></a></h3>
+<p>Updated on <%= repo.get('pushedAt').getFullYear() %>/<%= repo.get('pushedAt').getMonth() %>/<%= repo.get('pushedAt').getDate() %></p>
