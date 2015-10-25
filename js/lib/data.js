@@ -3,6 +3,9 @@ var Backbone = require('backbone');
 var gitURL = "https://api.github.com/";
 
 var Repo = Backbone.Model.extend({
+    initialize: function(models, options) {
+        this.octo = options.octo;
+    }
     // getMonthName: function(date_attribute){
     //     var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
     //     return monthNames[this.get(date_attribute).getMonth()];

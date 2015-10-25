@@ -15,7 +15,7 @@ var ReposCardView = Backbone.View.extend({
         var user = this.collection.user;
         var cardViews = this.collection.map(function(currentModel) {
             octo.repos(user,currentModel.get("name")).fetch().then(function(res){
-                var repo = new data.Repo(res);
+                var repo = new data.Repo(res,{octo: octo});
                 return new cardView({model: repo}).render().$el;
             })
         });
