@@ -1,5 +1,7 @@
 var Backbone = require('backbone');
 var _ = require("underscore");
+var data = require("./data");
+
 // var displayRepo = require("./display-repo");
 
 var cardView = require('./repo-card-view');
@@ -9,13 +11,16 @@ var ReposCardView = Backbone.View.extend({
     tagName: 'ul',
     attributes:{"class" :"git-board"},
     render: function() {
-
-    var cardViews = this.collection.map(function(currentModel) {
-        return new cardView({model: currentModel}).render().$el;
-    });
-    this.$el.empty().append(cardViews);
-
-    return this;
+        var octo = this.collection.octo;
+        var user = this.collection.user;
+        var cardViews = this.collection.map(function(currentModel) {
+            octo.repos(user,currentModel.get("name")).fetch().then(function(res){
+                var repo = new data.Repo(res);
+                return new cardView({model: repo}).render().$el;
+            })
+        });
+        this.$el.empty().append(cardViews);
+        return this;
     },
     events: {
         'click .nav__item': 'showRepo',

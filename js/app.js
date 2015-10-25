@@ -34,6 +34,7 @@ $('.keyword__item').on("click",function(){
     .then(function(result) {
         
         var reposCollection = new data.RepoCollection(result.items,{
+            octo: octo,
             keyword: keyword,
             user: user
         });
@@ -44,6 +45,6 @@ $('.keyword__item').on("click",function(){
         
         git.append(repos.render().$el);
         
-        $('body').animate({scrollTop: $(".keyword").offset().top},'slow');
+        $('body').animate({scrollTop: $(".keyword").offset().top - 5},'slow');
     });
 });

@@ -80,6 +80,7 @@
 	    .then(function(result) {
 	        
 	        var reposCollection = new data.RepoCollection(result.items,{
+	            octo: octo,
 	            keyword: keyword,
 	            user: user
 	        });
@@ -90,7 +91,7 @@
 	        
 	        git.append(repos.render().$el);
 	        
-	        $('body').animate({scrollTop: $(".keyword").offset().top},'slow');
+	        $('body').animate({scrollTop: $(".keyword").offset().top - 5},'slow');
 	    });
 	});
 
@@ -10182,6 +10183,7 @@
 	var RepoCollection = Backbone.Collection.extend({
 	    model: Repo,
 	    initialize: function(models, options) {
+	        this.octo = options.octo;
 	        this.keyword = options.keyword; // search term can also contain any combination of the supported repository search qualifiers 
 	        this.user = options.user;
 	        this.getQ = function(){return this.keyword +" user:"+this.user+" fork:true";};
@@ -10191,9 +10193,9 @@
 	            order: "asc"
 	        };
 	    },
-	    parse: function(response) {
-	        return response.items;
-	    },
+	    // parse: function(response) {
+	    //     return response.items;
+	    // },
 	    url: function(){return gitURL + "search/repositories"}
 	});
 
@@ -22880,6 +22882,8 @@
 
 	var Backbone = __webpack_require__(54);
 	var _ = __webpack_require__(58);
+	var data = __webpack_require__(53);
+
 	// var displayRepo = require("./display-repo");
 
 	var cardView = __webpack_require__(59);
@@ -22889,13 +22893,16 @@
 	    tagName: 'ul',
 	    attributes:{"class" :"git-board"},
 	    render: function() {
-
-	    var cardViews = this.collection.map(function(currentModel) {
-	        return new cardView({model: currentModel}).render().$el;
-	    });
-	    this.$el.empty().append(cardViews);
-
-	    return this;
+	        var octo = this.collection.octo;
+	        var user = this.collection.user;
+	        var cardViews = this.collection.map(function(currentModel) {
+	            octo.repos(user,currentModel.get("name")).fetch().then(function(res){
+	                var repo = new data.Repo(res);
+	                return new cardView({model: repo}).render().$el;
+	            })
+	        });
+	        this.$el.empty().append(cardViews);
+	        return this;
 	    },
 	    events: {
 	        'click .nav__item': 'showRepo',
@@ -24493,7 +24500,7 @@
 /* 60 */
 /***/ function(module, exports) {
 
-	module.exports = "<%console.log(model);%>\n<p><%= model.get('name') %></p>\n<p>Created on <%= model.get('createdAt').getFullYear() %>/<%= model.get('createdAt').getMonth() %>/<%= model.get('createdAt').getDate() %></p>"
+	module.exports = "<h3><%= model.get('name') %></h3>\n<p>Created on <%= model.get('createdAt').getFullYear() %>/<%= model.get('createdAt').getMonth() %>/<%= model.get('createdAt').getDate() %></p>"
 
 /***/ }
 /******/ ]);
